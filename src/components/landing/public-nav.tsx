@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LayoutDashboard, LogIn, Lock, Sprout } from 'lucide-react';
+import { LayoutDashboard, LogIn, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { selectIsAuthenticated, useAuthStore } from '@/stores/auth-store';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,8 @@ const NAV_LINKS = [
   { href: '#modules', label: 'Modules' },
   { href: '#how', label: 'How it works' },
   { href: '#testimonials', label: 'Stories' },
+  { href: '#contact', label: 'Contact Us' },
+  { href: '#about', label: 'About Us' },
 ];
 
 export function PublicNav() {
@@ -35,12 +37,7 @@ export function PublicNav() {
     >
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="flex size-9 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-soft transition-transform group-hover:scale-110">
-            <Sprout className="size-5" />
-          </span>
-          <span className="font-display text-lg font-bold tracking-tight text-ink">
-            Fieldly
-          </span>
+          <img src="/image/logo.png" alt="Fieldly Logo" className="size-16 rounded-2xl shadow-soft transition-transform group-hover:scale-110" />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -48,7 +45,7 @@ export function PublicNav() {
             <a
               key={l.href}
               href={l.href}
-              className="rounded-xl px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-primary/5 hover:text-primary"
+              className="rounded-xl px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-primary/5 hover:text-primary"
             >
               {l.label}
             </a>
@@ -58,7 +55,7 @@ export function PublicNav() {
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <>
-              <span className="hidden text-xs text-muted-foreground sm:inline">
+              <span className="hidden text-xs text-ink sm:inline">
                 Hi, <span className="font-semibold text-ink">{user?.name?.split(' ')[0]}</span>
               </span>
               <Button asChild variant="gradient" size="sm" className="animate-pulse-glow">

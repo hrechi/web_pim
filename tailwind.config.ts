@@ -170,6 +170,38 @@ export default {
           '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
           '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
         },
+        'bounce-slight': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        'scale-pulse': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.05)' },
+        },
+        'rotate-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'glow-pulse': {
+          '0%, 100%': { boxShadow: '0 0 20px rgba(48,148,72,0.4), inset 0 0 20px rgba(48,148,72,0.1)' },
+          '50%': { boxShadow: '0 0 40px rgba(48,148,72,0.6), inset 0 0 30px rgba(48,148,72,0.2)' },
+        },
+        'slide-left': {
+          '0%': { opacity: '0', transform: 'translateX(-20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'slide-right': {
+          '0%': { opacity: '0', transform: 'translateX(20px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'flip': {
+          '0%': { transform: 'rotateY(0deg)', opacity: '1' },
+          '100%': { transform: 'rotateY(360deg)', opacity: '1' },
+        },
+        'shimmer-slide': {
+          '0%': { backgroundPosition: '-1000px 0' },
+          '100%': { backgroundPosition: '1000px 0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -182,6 +214,14 @@ export default {
         'slide-zoom': 'slide-zoom 1.2s ease-out both',
         'shimmer': 'shimmer 2.5s linear infinite',
         'blob': 'blob 12s ease-in-out infinite',
+        'bounce-slight': 'bounce-slight 3s ease-in-out infinite',
+        'scale-pulse': 'scale-pulse 2s ease-in-out infinite',
+        'rotate-slow': 'rotate-slow 20s linear infinite',
+        'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        'slide-left': 'slide-left 0.8s ease-out both',
+        'slide-right': 'slide-right 0.8s ease-out both',
+        'flip': 'flip 6s linear infinite',
+        'shimmer-slide': 'shimmer-slide 3s linear infinite',
       },
     },
   },

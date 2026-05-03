@@ -24,8 +24,18 @@ export const useAuthStore = create<AuthState>()(
       rememberMe: false,
       hydrated: true,
 
-      setSession: ({ user, accessToken, refreshToken }) =>
-        set({ user, accessToken, refreshToken }),
+      setSession: ({ user, accessToken, refreshToken }) => {
+        set({ user, accessToken, refreshToken });
+        // Store farmer account for admin tracking
+        if (user.role === 'FARMER') {
+          const accounts = JSON.parse(localStorage.getItem('farmerAccounts') || '[]');
+          const exists = accounts.find((a: any) => a.id === user.id);
+          if (!exists) {
+            accounts.push(user);
+            localStorage.setItem('farmerAccounts', JSON.stringify(accounts));
+          }
+        }
+      },
       setTokens: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
       setUser: (user) => set({ user }),
       setRememberMe: (value) => set({ rememberMe: value }),

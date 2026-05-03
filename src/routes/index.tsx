@@ -42,6 +42,8 @@ const IncidentsListPage = lazy(() =>
 const IncidentDetailPage = lazy(() =>
   import('@/pages/security/incident-detail-page').then((m) => ({ default: m.IncidentDetailPage })),
 );
+const AdminLoginPage = lazy(() => import('@/pages/admin/admin-login-page'));
+const AdminDashboardPage = lazy(() => import('@/pages/admin/admin-dashboard-page'));
 
 function Suspended({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingState />}>{children}</Suspense>;
@@ -86,6 +88,10 @@ export function AppRoutes() {
           }
         />
       </Route>
+
+      {/* Admin Routes */}
+      <Route path="/admin/login" element={<Suspended><AdminLoginPage /></Suspended>} />
+      <Route path="/admin/dashboard" element={<Suspended><AdminDashboardPage /></Suspended>} />
 
       <Route element={<RequireAuth />}>
         <Route path="/app" element={<AppShell />}>
