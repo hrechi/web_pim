@@ -18,9 +18,14 @@ export interface Animal {
 }
 
 export const animalsService = {
-  list: async () => {
-    const res = await apiGet<Animal[] | { data: Animal[] }>('/animals');
+  list: async (fieldId?: string) => {
+    const url = fieldId ? `/animals?fieldId=${fieldId}` : '/animals';
+    const res = await apiGet<Animal[] | { data: Animal[] }>(url);
     return Array.isArray(res) ? res : (res?.data ?? []);
+  },
+  listForSale: async (fieldId?: string) => {
+    const url = fieldId ? `/animals/for-sale?fieldId=${fieldId}` : '/animals/for-sale';
+    return apiGet<Animal[]>(url);
   },
   get: (id: string) => apiGet<Animal>(`/animals/id/${id}`),
   create: (payload: Partial<Animal>) => apiPost<Animal>('/animals', payload),

@@ -10,11 +10,14 @@ export interface ContactMessage {
 }
 
 export interface Rating {
-  id: number;
+  id: string;
   rating: number;
-  comment: string;
+  comment: string | null;
   timestamp: string;
+  userName?: string;
   userEmail?: string;
+  userId?: string;
+  avatarUrl?: string | null;
 }
 
 export interface AdminStats {
@@ -25,6 +28,24 @@ export interface AdminStats {
   totalAccounts: number;
 }
 
+/** Returns the stored admin token from localStorage */
+function getAdminToken(): string | null {
+  try {
+    const raw = localStorage.getItem('fieldly:admin');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.adminToken ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/** Axios config that injects the admin token as Bearer */
+function adminConfig() {
+  const token = getAdminToken();
+  return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+}
+
 export const adminService = {
   // Contact Messages
   getContactMessages: () => apiGet<ContactMessage[]>('/admin/contacts'),
@@ -33,9 +54,23 @@ export const adminService = {
   deleteContactMessage: (id: number) => apiDelete<{ message: string }>(`/admin/contacts/${id}`),
 
   // Ratings
-  getRatings: () => apiGet<Rating[]>('/admin/ratings'),
-  getRating: (id: number) => apiGet<Rating>(`/admin/ratings/${id}`),
-  deleteRating: (id: number) => apiDelete<{ message: string }>(`/admin/ratings/${id}`),
+  getRatings: () => apiGet<Rating[]>('/admin/ratings', adminConfig()),
+  getRating: (id: string) => apiGet<Rating>(`/admin/ratings/${id}`, adminConfig()),
+  deleteRating: (id: string) => apiDelete<{ message: string }>(`/admin/ratings/${id}`, adminConfig()),
+
+  // Get ratings with fallback
+  getAllRatings: async () => {
+    try {
+      console.log('[adminService] Fetching ratings from backend...');
+      const ratings = await apiGet<Rating[]>('/admin/ratings', adminConfig());
+      console.log('[adminService] Success! Found ratings:', ratings);
+      return ratings;
+    } catch (error) {
+      console.error('[adminService] Backend call failed:', error);
+      console.log('[adminService] Falling back to localStorage');
+      return adminService.getLocalRatings();
+    }
+  },
 
   // Farmer Accounts
   getFarmerAccounts: async () => {

@@ -13,15 +13,30 @@ import {
 import { Input } from '@/components/ui/input';
 import { useAuthStore } from '@/stores/auth-store';
 import { useUiStore } from '@/stores/ui-store';
+import { useNotificationsStore } from '@/stores/notifications-store';
 import { authService } from '@/services/auth.service';
 import { initials } from '@/lib/utils';
 import { mediaUrl } from '@/lib/env';
+import { useIncidentsQuery } from '@/hooks/queries/use-incidents';
+import { FieldSwitcher } from '@/components/common/field-switcher';
 
 export function Topbar() {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const clear = useAuthStore((s) => s.clear);
   const toggleSidebar = useUiStore((s) => s.toggleSidebar);
+  const lastSeenAt = useNotificationsStore((s) => s.lastSeenAt);
+  const clearedIds = useNotificationsStore((s) => s.clearedIds);
+
+  // Show badge if any non-cleared incident is newer than the last time user opened notifications
+  const { data: incidents } = useIncidentsQuery();
+  const hasUnseen = Array.isArray(incidents) && incidents.some((i) => {
+    if (clearedIds.includes(i.id)) return false;
+    const t = i.detectedAt ?? i.timestamp;
+    if (!t) return false;
+    if (!lastSeenAt) return true;
+    return new Date(t as string) > new Date(lastSeenAt);
+  });
 
   const handleSignOut = async () => {
     try {
@@ -46,6 +61,7 @@ export function Topbar() {
         </div>
       </div>
       <div className="ml-auto flex items-center gap-2">
+        <FieldSwitcher />
         <Button
           variant="ghost"
           size="icon"
@@ -54,7 +70,9 @@ export function Topbar() {
           aria-label="Notifications"
         >
           <Bell className="size-5" />
-          <span className="absolute right-2 top-2 size-2 rounded-full bg-danger" />
+          {hasUnseen && (
+            <span className="absolute right-2 top-2 size-2 rounded-full bg-danger" />
+          )}
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

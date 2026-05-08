@@ -1,15 +1,16 @@
-import { Mountain, Plus } from 'lucide-react';
+import { Mountain } from 'lucide-react';
 import { PageHeader } from '@/components/common/page-header';
 import { LoadingState } from '@/components/common/loading-state';
 import { ErrorState } from '@/components/common/error-state';
 import { EmptyState } from '@/components/common/empty-state';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useSoilSamplesQuery } from '@/hooks/queries/use-soil';
+import { useFieldStore } from '@/stores/field-store';
 
 export function SoilPage() {
-  const { data, isLoading, isError, refetch } = useSoilSamplesQuery();
+  const fieldId = useFieldStore((s) => s.selectedFieldId) ?? undefined;
+  const { data, isLoading, isError, refetch } = useSoilSamplesQuery(fieldId);
   const samples = Array.isArray(data) ? data : [];
 
   return (
@@ -18,11 +19,6 @@ export function SoilPage() {
         icon={<Mountain className="size-5" />}
         title="Soil analysis"
         description="Recent soil samples and AI-predicted soil types."
-        actions={
-          <Button variant="gradient" disabled>
-            <Plus className="size-4" /> New sample
-          </Button>
-        }
       />
       {isLoading ? (
         <LoadingState />

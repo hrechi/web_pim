@@ -7,8 +7,11 @@ export const animalsKeys = {
   detail: (id: string) => [...animalsKeys.all, 'detail', id] as const,
 };
 
-export function useAnimalsQuery() {
-  return useQuery({ queryKey: animalsKeys.list(), queryFn: () => animalsService.list() });
+export function useAnimalsQuery(fieldId?: string) {
+  return useQuery({
+    queryKey: [...animalsKeys.list(), fieldId ?? 'all'],
+    queryFn: () => animalsService.list(fieldId),
+  });
 }
 
 export function useAnimalQuery(id?: string) {

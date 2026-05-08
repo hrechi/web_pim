@@ -88,9 +88,9 @@ export function IncidentDetailPage() {
             <CardTitle>Evidence</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {data.imageUrl ? (
+            {(data.imagePath || data.imageUrl) ? (
               <img
-                src={mediaUrl(data.imageUrl)}
+                src={mediaUrl(data.imagePath ?? data.imageUrl)}
                 alt="Incident"
                 className="w-full rounded-2xl border border-border/60"
               />

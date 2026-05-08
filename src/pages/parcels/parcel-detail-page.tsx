@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, CloudSun, Mountain, Sprout } from 'lucide-react';
+import { ArrowLeft, Sprout } from 'lucide-react';
 import { PageHeader } from '@/components/common/page-header';
 import { LoadingState } from '@/components/common/loading-state';
 import { ErrorState } from '@/components/common/error-state';
@@ -76,23 +76,6 @@ export function ParcelDetailPage() {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Quick actions</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Button asChild variant="outline">
-              <Link to={`/app/weather?fieldId=${parcel.id}`}>
-                <CloudSun className="size-4" /> View weather
-              </Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link to="/app/soil">
-                <Mountain className="size-4" /> Soil samples
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

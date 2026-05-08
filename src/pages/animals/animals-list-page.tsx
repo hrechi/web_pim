@@ -1,4 +1,4 @@
-import { Beef, Plus } from 'lucide-react';
+import { Beef } from 'lucide-react';
 import { PageHeader } from '@/components/common/page-header';
 import { LoadingState } from '@/components/common/loading-state';
 import { ErrorState } from '@/components/common/error-state';
@@ -6,7 +6,6 @@ import { EmptyState } from '@/components/common/empty-state';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useAnimalsQuery } from '@/hooks/queries/use-animals';
 import { initials } from '@/lib/utils';
 import { mediaUrl } from '@/lib/env';
@@ -21,11 +20,6 @@ export function AnimalsListPage() {
         icon={<Beef className="size-5" />}
         title="Livestock"
         description="Every animal across your herds and flocks."
-        actions={
-          <Button variant="gradient" disabled>
-            <Plus className="size-4" /> Add animal
-          </Button>
-        }
       />
       {isLoading ? (
         <LoadingState />

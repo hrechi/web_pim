@@ -19,9 +19,10 @@ export interface SoilSample {
 }
 
 export const soilService = {
-  list: async () => {
-    const res = await apiGet<SoilSample[] | { data: SoilSample[] }>('/soil');
-    return Array.isArray(res) ? res : (res?.data ?? []);
+  list: async (fieldId?: string) => {
+    const url = fieldId ? `/soil/simple-list?fieldId=${fieldId}` : '/soil/simple-list';
+    const res = await apiGet<SoilSample[]>(url);
+    return Array.isArray(res) ? res : [];
   },
   get: async (id: string) => {
     const res = await apiGet<SoilSample | { data: SoilSample }>(`/soil/${id}`);

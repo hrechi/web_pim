@@ -10,10 +10,15 @@ export interface Incident {
   severity?: IncidentSeverity;
   status?: IncidentStatus;
   detectedAt?: string;
+  timestamp?: string;
+  type?: string;
+  imagePath?: string | null;
   imageUrl?: string | null;
   videoUrl?: string | null;
   audioUrl?: string | null;
   parcelId?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   metadata?: Record<string, unknown>;
   [key: string]: unknown;
 }

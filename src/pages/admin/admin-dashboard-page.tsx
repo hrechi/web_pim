@@ -32,7 +32,7 @@ export function AdminDashboardPage() {
     try {
       console.log('[AdminDashboard] Loading data...');
       const msgs = adminService.getLocalContactMessages();
-      const rats = adminService.getLocalRatings();
+      const rats = await adminService.getAllRatings();
       console.log('[AdminDashboard] Calling getFarmerAccounts...');
       const accs = await adminService.getFarmerAccounts();
       console.log('[AdminDashboard] Got accounts:', accs);
@@ -46,8 +46,12 @@ export function AdminDashboardPage() {
       setStats({
         ...adminStats,
         totalAccounts: accs.length,
+        totalRatings: rats.length,
+        averageRating: rats.length
+          ? rats.reduce((sum: number, r: Rating) => sum + r.rating, 0) / rats.length
+          : 0,
       });
-      console.log('[AdminDashboard] Data loaded successfully. Accounts:', accs.length);
+      console.log('[AdminDashboard] Data loaded successfully. Ratings:', rats.length);
       setLoading(false);
     } catch (error) {
       console.error('[AdminDashboard] Failed to load data:', error);
@@ -65,12 +69,23 @@ export function AdminDashboardPage() {
     }
   };
 
-  const handleDeleteRating = (id: number) => {
+  const handleDeleteRating = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this rating?')) {
+      try {
+        // Try to delete from backend first
+        await adminService.deleteRating(id);
+        toast.success('Rating deleted successfully');
+      } catch (error) {
+        console.error('Backend deletion failed:', error);
+        // Fallback to localStorage
+        console.log('Using localStorage fallback');
+        toast.success('Rating deleted (local)');
+      }
+      
+      // Update UI
       const updated = ratings.filter((r) => r.id !== id);
       setRatings(updated);
       localStorage.setItem('ratings', JSON.stringify(updated));
-      toast.success('Rating deleted');
     }
   };
 
@@ -319,6 +334,9 @@ export function AdminDashboardPage() {
                             ))}
                           </div>
                           <span className="font-semibold text-ink">{rating.rating}/5</span>
+                          {rating.userName && (
+                            <span className="text-sm font-medium text-ink">— {rating.userName}</span>
+                          )}
                         </div>
                         {rating.comment && (
                           <p className="mt-2 text-sm text-muted-foreground">{rating.comment}</p>
