@@ -13,6 +13,22 @@
     height: 100%;
   }
 
+  /* Smooth scroll with offset for fixed header */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Offset anchor targets so fixed nav doesn't cover them */
+  [id] {
+    scroll-margin-top: 80px;
+  }
+
   body {
     @apply bg-bg text-ink font-sans;
     -webkit-font-smoothing: antialiased;
@@ -37,6 +53,116 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     background: #cfd6d8;
+  }
+}
+
+/* ── Aurora background blobs ───────────────────────────────────── */
+.aurora-container {
+  filter: blur(60px) saturate(1.4);
+  mix-blend-mode: normal;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  animation: aurora-move ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes aurora-move {
+  0%   { transform: translate(0%, 0%)   scale(1)    rotate(0deg); }
+  25%  { transform: translate(8%, -6%)  scale(1.08) rotate(15deg); }
+  50%  { transform: translate(-5%, 10%) scale(0.95) rotate(-10deg); }
+  75%  { transform: translate(10%, 5%)  scale(1.05) rotate(20deg); }
+  100% { transform: translate(-8%, -8%) scale(1.1)  rotate(-5deg); }
+}
+
+/* ── Landing page animated background ─────────────────────────── */
+.landing-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(48,148,72,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(26,188,156,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(46,204,113,0.04) 0%, transparent 70%),
+    #FAF7F2;
+}
+
+/* Floating orbs */
+.landing-bg::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(48,148,72,0.10) 0%, transparent 70%);
+  top: -100px;
+  left: -150px;
+  animation: orb-drift-1 18s ease-in-out infinite;
+}
+
+.landing-bg::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,188,156,0.09) 0%, transparent 70%);
+  bottom: 10%;
+  right: -100px;
+  animation: orb-drift-2 22s ease-in-out infinite;
+}
+
+/* Grain texture overlay */
+.landing-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Subtle grid lines */
+.landing-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(48,148,72,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48,148,72,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(80px, 60px) scale(1.08); }
+  66%       { transform: translate(-40px, 100px) scale(0.95); }
+}
+
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-60px, -80px) scale(1.06); }
+  66%       { transform: translate(50px, -30px) scale(0.97); }
+}
+
+/* Smooth section transition on scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .section-fade {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .section-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

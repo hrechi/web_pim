@@ -202,6 +202,10 @@ export default {
           '0%': { backgroundPosition: '-1000px 0' },
           '100%': { backgroundPosition: '1000px 0' },
         },
+        'aurora': {
+          from: { backgroundPosition: '50% 50%, 50% 50%' },
+          to: { backgroundPosition: '350% 50%, 350% 50%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -222,6 +226,7 @@ export default {
         'slide-right': 'slide-right 0.8s ease-out both',
         'flip': 'flip 6s linear infinite',
         'shimmer-slide': 'shimmer-slide 3s linear infinite',
+        'aurora': 'aurora 15s linear infinite',
       },
     },
   },

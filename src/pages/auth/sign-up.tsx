@@ -64,7 +64,7 @@ export function SignUpScreen() {
       });
       setSession(res);
       toast.success('Welcome to Fieldly!');
-      navigate('/', { replace: true });
+      navigate('/app/dashboard', { replace: true });
     } catch (err) {
       toast.error(getErrorMessage(err));
     } finally {

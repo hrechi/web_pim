@@ -47,8 +47,8 @@ export function SignInScreen() {
       setSession(res);
       setRememberMe(Boolean(values.remember));
       toast.success(`Welcome back, ${res.user.name.split(' ')[0]}!`);
-      const from = (location.state as { from?: Location })?.from?.pathname ?? '/';
-      navigate(from, { replace: true });
+      const from = (location.state as { from?: Location })?.from?.pathname;
+      navigate(from && from !== '/' ? from : '/app/dashboard', { replace: true });
     } catch (err) {
       toast.error(getErrorMessage(err));
     } finally {
