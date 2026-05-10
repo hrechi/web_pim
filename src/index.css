@@ -5,6 +5,23 @@
 @layer base {
   :root {
     --radius: 16px;
+    /* Light mode tokens */
+    --color-bg: #FAF7F2;
+    --color-surface: #FFFFFF;
+    --color-ink: #2C3E2D;
+    --color-muted: #ECF0F1;
+    --color-muted-fg: #7F8C8D;
+    --color-border: #E5E1D8;
+  }
+
+  /* Dark mode overrides */
+  .dark {
+    --color-bg: #0f1a10;
+    --color-surface: #1a2e1b;
+    --color-ink: #e8f5e9;
+    --color-muted: #1e3320;
+    --color-muted-fg: #8aab8c;
+    --color-border: #2d4a2e;
   }
 
   html,

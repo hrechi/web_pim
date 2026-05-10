@@ -7,11 +7,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAnimalsQuery } from '@/hooks/queries/use-animals';
+import { useFieldStore } from '@/stores/field-store';
 import { initials } from '@/lib/utils';
 import { mediaUrl } from '@/lib/env';
 
 export function AnimalsListPage() {
-  const { data, isLoading, isError, refetch } = useAnimalsQuery();
+  const fieldId = useFieldStore((s) => s.selectedFieldId) ?? undefined;
+  const { data, isLoading, isError, refetch } = useAnimalsQuery(fieldId);
   const animals = Array.isArray(data) ? data : [];
 
   return (

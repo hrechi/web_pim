@@ -10,6 +10,7 @@ import { useFieldStore } from '@/stores/field-store';
 
 export function SoilPage() {
   const fieldId = useFieldStore((s) => s.selectedFieldId) ?? undefined;
+  const fieldName = useFieldStore((s) => s.selectedField?.name);
   const { data, isLoading, isError, refetch } = useSoilSamplesQuery(fieldId);
   const samples = Array.isArray(data) ? data : [];
 
@@ -40,7 +41,7 @@ export function SoilPage() {
               <Card key={s.id}>
                 <CardContent className="space-y-3 p-5">
                   <div className="flex items-center justify-between">
-                    <Badge variant="secondary">{s.soilType ?? 'Unknown'}</Badge>
+                    <Badge variant="secondary">{s.soilType ?? fieldName ?? 'Sample'}</Badge>
                     {s.createdAt ? (
                       <span className="text-xs text-muted-foreground">
                         {new Date(s.createdAt).toLocaleDateString()}

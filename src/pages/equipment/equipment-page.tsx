@@ -4,6 +4,7 @@ import { LoadingState } from '@/components/common/loading-state';
 import { ErrorState } from '@/components/common/error-state';
 import { EmptyState } from '@/components/common/empty-state';
 import { useAssetsQuery } from '@/hooks/queries/use-assets';
+import { useFieldStore } from '@/stores/field-store';
 import type { Asset } from '@/services/assets.service';
 
 const STATUS_STYLES: Record<Asset['status'], { dot: string; label: string }> = {
@@ -13,7 +14,8 @@ const STATUS_STYLES: Record<Asset['status'], { dot: string; label: string }> = {
 };
 
 export function EquipmentPage() {
-  const { data, isLoading, isError, refetch } = useAssetsQuery();
+  const fieldId = useFieldStore((s) => s.selectedFieldId) ?? undefined;
+  const { data, isLoading, isError, refetch } = useAssetsQuery(fieldId);
   const assets = Array.isArray(data) ? data : [];
 
   return (

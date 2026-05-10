@@ -7,8 +7,11 @@ export const staffKeys = {
   detail: (id: string) => [...staffKeys.all, 'detail', id] as const,
 };
 
-export function useStaffQuery() {
-  return useQuery({ queryKey: staffKeys.list(), queryFn: () => staffService.list() });
+export function useStaffQuery(fieldId?: string) {
+  return useQuery({
+    queryKey: [...staffKeys.list(), fieldId ?? 'all'],
+    queryFn: () => staffService.list(fieldId),
+  });
 }
 
 export function useStaffDetailQuery(id?: string) {

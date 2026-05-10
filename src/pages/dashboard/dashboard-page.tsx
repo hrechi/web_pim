@@ -35,7 +35,7 @@ export function DashboardPage() {
   const parcels = useParcelsQuery();
   const animals = useAnimalsQuery(fieldId);
   const incidents = useIncidentsQuery();
-  const staff = useStaffQuery();
+  const staff = useStaffQuery(fieldId);
   const soil = useSoilSamplesQuery(fieldId);
 
   const parcelList = Array.isArray(parcels.data) ? parcels.data : [];
@@ -135,7 +135,7 @@ export function DashboardPage() {
                 return (
                   <div key={s.id} className="rounded-xl border border-border/60 bg-bg/40 p-3 space-y-2">
                     <div className="flex items-center justify-between">
-                      <Badge variant="secondary" className="text-[11px]">{s.soilType ?? 'Unknown'}</Badge>
+                      <Badge variant="secondary" className="text-[11px]">{s.soilType ?? selectedFieldName ?? 'Sample'}</Badge>
                       {s.createdAt && (
                         <span className="text-[11px] text-muted-foreground">
                           {new Date(s.createdAt).toLocaleDateString()}

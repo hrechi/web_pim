@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Settings, User, Lock, Moon, Sun, Monitor, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/common/page-header';
@@ -15,14 +15,13 @@ function getStoredTheme(): Theme {
   return (localStorage.getItem('fieldly:theme') as Theme) ?? 'system';
 }
 
-function applyTheme(theme: Theme) {
+export function applyTheme(theme: Theme) {
   const root = document.documentElement;
   if (theme === 'dark') {
     root.classList.add('dark');
   } else if (theme === 'light') {
     root.classList.remove('dark');
   } else {
-    // system
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     root.classList.toggle('dark', prefersDark);
   }

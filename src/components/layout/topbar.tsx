@@ -1,4 +1,4 @@
-import { Bell, LogOut, Menu, Search, UserRound } from 'lucide-react';
+import { Bell, LogOut, Menu, UserRound } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { useAuthStore } from '@/stores/auth-store';
 import { useUiStore } from '@/stores/ui-store';
 import { useNotificationsStore } from '@/stores/notifications-store';
@@ -19,6 +18,7 @@ import { initials } from '@/lib/utils';
 import { mediaUrl } from '@/lib/env';
 import { useIncidentsQuery } from '@/hooks/queries/use-incidents';
 import { FieldSwitcher } from '@/components/common/field-switcher';
+import { GlobalSearch } from '@/components/common/global-search';
 
 export function Topbar() {
   const navigate = useNavigate();
@@ -54,12 +54,7 @@ export function Topbar() {
         <Menu className="size-5" />
         <span className="sr-only">Open menu</span>
       </Button>
-      <div className="hidden flex-1 max-w-md md:block">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search parcels, animals, incidents…" className="pl-9" />
-        </div>
-      </div>
+      <GlobalSearch />
       <div className="ml-auto flex items-center gap-2">
         <FieldSwitcher />
         <Button

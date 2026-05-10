@@ -5,10 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useStaffQuery, useDeleteStaffMutation } from '@/hooks/queries/use-staff';
+import { useFieldStore } from '@/stores/field-store';
 import { API_ORIGIN } from '@/lib/env';
 
 export function TeamPage() {
-  const staff = useStaffQuery();
+  const fieldId = useFieldStore((s) => s.selectedFieldId) ?? undefined;
+  const staff = useStaffQuery(fieldId);
   const deleteStaffMutation = useDeleteStaffMutation();
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 

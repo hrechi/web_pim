@@ -9,8 +9,9 @@ export interface Staff {
 }
 
 export const staffService = {
-  list: async () => {
-    const res = await apiGet<Staff[] | { data: Staff[] }>('/staff');
+  list: async (fieldId?: string) => {
+    const url = fieldId ? `/staff?fieldId=${fieldId}` : '/staff';
+    const res = await apiGet<Staff[] | { data: Staff[] }>(url);
     return Array.isArray(res) ? res : (res?.data ?? []);
   },
   get: (id: string) => apiGet<Staff>(`/staff/${id}`),

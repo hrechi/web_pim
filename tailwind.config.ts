@@ -67,18 +67,18 @@ export default {
         },
         glow: '#AFFE00',
 
-        // Surfaces / neutrals
-        bg: '#FAF7F2',
-        background: '#FAF7F2',
-        surface: '#FFFFFF',
-        ink: '#2C3E2D',
-        foreground: '#2C3E2D',
+        // Surfaces / neutrals — CSS var driven for dark mode
+        bg: 'var(--color-bg)',
+        background: 'var(--color-bg)',
+        surface: 'var(--color-surface)',
+        ink: 'var(--color-ink)',
+        foreground: 'var(--color-ink)',
         muted: {
-          DEFAULT: '#ECF0F1',
-          foreground: '#7F8C8D',
+          DEFAULT: 'var(--color-muted)',
+          foreground: 'var(--color-muted-fg)',
         },
-        border: '#E5E1D8',
-        input: '#E5E1D8',
+        border: 'var(--color-border)',
+        input: 'var(--color-border)',
         ring: '#309448',
         card: {
           DEFAULT: '#FFFFFF',
